@@ -1,0 +1,162 @@
+version: 2.1
+
+description: |
+  Build, test and deploy helpers for Entur Team Salg
+
+orbs:
+  slack: circleci/slack@4.1.1
+
+executors:
+  slack-exec:
+    docker:
+      - image: cimg/base:stable
+        auth:
+          username: $DOCKERHUB_LOGIN
+          password: $DOCKERHUB_PASSWORD
+
+aliases:
+  - &get-version-from-gradle-properties
+    name: Getting version by gradle-prop version
+    command: |
+      GRADLE_VERSION=$(cat ./gradle.properties | grep "version" | cut -d'=' -f2)
+      echo $GRADLE_VERSION
+      echo "export GRADLE_VERSION=$GRADLE_VERSION" >> $BASH_ENV
+
+  - &get-current-tag
+    name: Get current git tag to show JIRA issues related to current merge
+    command: |
+      CURRENT_TAG=$CIRCLE_BRANCH-v$GRADLE_VERSION
+      echo $CURRENT_TAG
+      echo "export CURRENT_TAG=$CURRENT_TAG" >> $BASH_ENV
+
+  - &find-jira-issues-from-latest-commits
+    name: Find jira issues from latest commits
+    command: |
+      echo $CURRENT_TAG
+      ISSUE_KEYS=$(git log --pretty=oneline ${CURRENT_TAG}..HEAD | grep -e '[A-Z]\+-[0-9]\+' -o | uniq | sed -e "H;\${x;s/\n/,/g;s/^,//;p;};d")
+      echo $ISSUE_KEYS
+      echo "export ISSUE_KEYS=$ISSUE_KEYS" >> $BASH_ENV
+      cat $BASH_ENV
+
+  - &slack-fail-block |-
+    {
+      "attachments": [
+        {
+          "color": "#d31b1b",
+          "blocks": [
+            {
+              "type": "section",
+              "text": {
+                "type": "mrkdwn",
+                "text": "*Your job ${CIRCLE_JOB} has failed :x:*"
+              }
+            },
+            {
+              "type": "section",
+              "fields": [
+                {
+                  "type": "mrkdwn",
+                  "text": "*Project*: \n $CIRCLE_PROJECT_REPONAME"
+                },
+                {
+                  "type": "mrkdwn",
+                  "text": "*Branch*: \n $CIRCLE_BRANCH"
+                },
+                {
+                  "type": "mrkdwn",
+                  "text": "*Author*: \n $CIRCLE_USERNAME"
+                },
+                {
+                  "type": "mrkdwn",
+                  "text": "*Commit*: \n $COMMIT_MESSAGE"
+                }
+              ]
+            },
+            {
+              "type": "actions",
+              "elements": [
+                {
+                  "type": "button",
+                  "text": {
+                    "type": "plain_text",
+                    "text": "View Workflow"
+                  },
+                  "url": "https://circleci.com/workflow-run/${CIRCLE_WORKFLOW_ID}"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  - &slack-success-block |-
+    {
+      "attachments": [
+        {
+          "color": "#1a8e60",
+          "blocks": [
+            {
+              "type": "section",
+              "text": {
+                "type": "mrkdwn",
+                "text": "*Successfully deployed to dev & staging! :white_check_mark:*"
+              }
+            },
+            {
+              "type": "section",
+              "fields": [
+                {
+                  "type": "mrkdwn",
+                  "text": "*Project*: \n $CIRCLE_PROJECT_REPONAME"
+                },
+                {
+                  "type": "mrkdwn",
+                  "text": "*Branch*: \n $CIRCLE_BRANCH"
+                },
+                {
+                  "type": "mrkdwn",
+                  "text": "*Author*: \n $CIRCLE_USERNAME"
+                },
+                {
+                  "type": "mrkdwn",
+                  "text": "*Commit*: \n $COMMIT_MESSAGE"
+                }
+              ]
+            },
+            {
+              "type": "actions",
+              "elements": [
+                {
+                  "type": "button",
+                  "text": {
+                    "type": "plain_text",
+                    "text": "View Workflow"
+                  },
+                  "url": "https://circleci.com/workflow-run/${CIRCLE_WORKFLOW_ID}"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+
+commands:
+  on-fail:
+    steps:
+      - checkout
+      - run: *get-version-from-gradle-properties
+      - run: *get-current-tag
+      - run: *find-jira-issues-from-latest-commits
+      - slack/notify:
+          event: fail
+          custom: *slack-fail-block
+  on-success:
+    steps:
+      - checkout
+      - run: *get-version-from-gradle-properties
+      - run: *get-current-tag
+      - run: *find-jira-issues-from-latest-commits
+      - slack/notify:
+          event: always
+          custom: *slack-success-block
