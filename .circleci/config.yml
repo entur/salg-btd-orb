@@ -4,14 +4,14 @@ orbs:
   orb-tools: circleci/orb-tools@10.0.1
 
 executors:
-  lint-condo:
+  linter:
     resource_class: small
     docker:
-      - image: singapore/lint-condo
+      - image: cytopia/yamllint:1.23
 
 jobs:
   lint:
-    executor: lint-condo
+    executor: linter
     steps:
       - checkout
       - run:  yamllint --no-warnings -d relaxed .
