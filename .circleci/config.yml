@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  orb-tools: circleci/orb-tools@3.0.0
+  orb-tools: circleci/orb-tools@10.0.1
 
 executors:
   lint-condo:
@@ -27,11 +27,11 @@ workflows:
             branches:
               ignore: master
           orb-path: src/@orb.yml
-          orb-ref: entur/vm-install-tools@dev:$CIRCLE_BRANCH
+          orb-ref: entur/salb-btd@dev:$CIRCLE_BRANCH
       - orb-tools/test-in-builds:
           name: test
           orb-location: src/@orb.yml
-          orb-name: vm-install-tools
+          orb-name: salg-btd
           test-steps:
             - orb-tools/local-test-build:
                 test-config-location: test/install-test.yml
@@ -45,6 +45,6 @@ workflows:
             branches:
               only: master
           orb-path: src/@orb.yml
-          orb-ref: entur/vm-install-tools
+          orb-ref: entur/salg-btd
           requires:
             - test
