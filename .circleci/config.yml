@@ -27,7 +27,9 @@ workflows:
             branches:
               only: master
           orb-path: src/@orb.yml
-          orb-ref: entur/salb-btd@dev:$CIRCLE_BRANCH
+          orb-ref: entur/salg-btd@dev:$CIRCLE_BRANCH
+          requires:
+            - lint
       - orb-tools/increment:
           name: release
           context: orb-publishing
