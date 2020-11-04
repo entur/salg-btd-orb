@@ -4,4 +4,4 @@ description: |
   Build, test and deploy helpers for Entur Team Salg
 
 orbs:
-  slack: circleci/slack@4.1.1
+  slack: circleci/slack@4

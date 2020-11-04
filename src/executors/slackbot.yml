@@ -3,4 +3,3 @@ docker:
     auth:
       username: $DOCKERHUB_LOGIN
       password: $DOCKERHUB_PASSWORD
-
