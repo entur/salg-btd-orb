@@ -1,0 +1,6 @@
+docker:
+  - image: cimg/base:stable
+    auth:
+      username: $DOCKERHUB_LOGIN
+      password: $DOCKERHUB_PASSWORD
+

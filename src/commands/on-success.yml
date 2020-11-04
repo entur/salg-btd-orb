@@ -1,0 +1,8 @@
+steps:
+  - checkout
+  - run: *get-version-from-gradle-properties
+  - run: *get-current-tag
+  - run: *find-jira-issues-from-latest-commits
+  - slack/notify:
+      event: always
+      custom: *slack-success-block

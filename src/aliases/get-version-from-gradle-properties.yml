@@ -1,0 +1,5 @@
+name: Getting version by gradle-prop version
+command: |
+  GRADLE_VERSION=$(cat ./gradle.properties | grep "version" | cut -d'=' -f2)
+  echo $GRADLE_VERSION
+  echo "export GRADLE_VERSION=$GRADLE_VERSION" >> $BASH_ENV
