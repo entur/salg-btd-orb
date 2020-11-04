@@ -1,7 +1,9 @@
-description: Finds JIRA issues (through regex) from the commit messages since the last tag (last tag set in separate command)
+description: Finds JIRA issues (through regex) from the commit messages
+  since the last tag (last tag set in separate command)
 command: |-
   echo $CURRENT_TAG
-  ISSUE_KEYS=$(git log --pretty=oneline ${CURRENT_TAG}..HEAD | grep -e '[A-Z]\+-[0-9]\+' -o | uniq | sed -e "H;\${x;s/\n/,/g;s/^,//;p;};d")
+  ISSUE_KEYS=$(git log --pretty=oneline ${CURRENT_TAG}..HEAD | \
+  grep -e '[A-Z]\+-[0-9]\+' -o | uniq | sed -e "H;\${x;s/\n/,/g;s/^,//;p;};d")
   echo $ISSUE_KEYS
   echo "export ISSUE_KEYS=$ISSUE_KEYS" >> $BASH_ENV
   cat $BASH_ENV

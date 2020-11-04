@@ -14,7 +14,7 @@ jobs:
     executor: lint-condo
     steps:
       - checkout
-      - run: yamllint .
+      - run:  yamllint --no-warnings -d relaxed .
 
 workflows:
   verify:
