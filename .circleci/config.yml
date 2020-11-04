@@ -25,7 +25,7 @@ workflows:
           context: orb-publishing
           filters:
             branches:
-              ignore: master
+              only: master
           orb-path: src/@orb.yml
           orb-ref: entur/salb-btd@dev:$CIRCLE_BRANCH
       - orb-tools/increment:
