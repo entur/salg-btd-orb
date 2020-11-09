@@ -1,3 +1,7 @@
+docker:
+  - image: cimg/base:stable
+resource_class: small
+description: "Sends slack message."
 steps:
   - checkout
   - run: get-latest-version

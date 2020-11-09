@@ -1,3 +1,5 @@
 description: Log in to Docker hub to avoid rate limiting
-command: |-
-  echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_LOGIN --password-stdin
+steps:
+  - run:
+      command: |-
+        echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_LOGIN --password-stdin
