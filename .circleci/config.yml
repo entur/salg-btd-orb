@@ -20,9 +20,9 @@ workflows:
   verify:
     jobs:
       - lint
-      - orb-tools/pack
-        name: pack
-        requires: lint
+      - orb-tools/pack:
+          name: pack
+          requires: lint
       - orb-tools/publish:
           name: publish
           context: orb-publishing
