@@ -8,6 +8,9 @@ executors:
     resource_class: small
     docker:
       - image: cytopia/yamllint:1.23
+        auth:
+          username: $DOCKERHUB_LOGIN
+          password: $DOCKERHUB_PASSWORD
 
 jobs:
   lint:
@@ -30,6 +33,7 @@ workflows:
           name: publish
           context: orb-publishing
           orb-path: orb.yml
+          attach-workspace: true
           filters:
             branches:
               only: master
@@ -39,6 +43,7 @@ workflows:
       - orb-tools/increment:
           name: release
           context: orb-publishing
+          attach-workspace: true
           orb-path: orb.yml
           filters:
             branches:
