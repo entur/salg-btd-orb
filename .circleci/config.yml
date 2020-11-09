@@ -1,7 +1,8 @@
 version: 2.1
 
 orbs:
-  orb-tools: circleci/orb-tools@10.0.1
+  orb-tools: circleci/orb-tools@10
+  cli: circleci/circleci-cli@0.1
 
 executors:
   linter:
@@ -18,36 +19,25 @@ jobs:
     steps:
       - checkout
       - run:  yamllint --no-warnings -d relaxed .
+  publish:
+    executor: cli/default
+    steps:
+      - checkout
+      - orb-tools/pack:
+          use-orb-pack: true
+      - orb-tools/publish:
+          orb-ref: entur/salg-btd@dev:$CIRCLE_BRANCH
+      - orb-tools/increment:
+          orb-ref: entur/salg-btd@dev:$CIRCLE_BRANCH
 
 workflows:
   verify:
     jobs:
       - lint
-      - orb-tools/pack:
-          name: pack
-          artifact-path: orb.yml
-          use-orb-pack: true
+      - publish:
           requires:
             - lint
-      - orb-tools/publish:
-          name: publish
           context: orb-publishing
-          orb-path: orb.yml
-          attach-workspace: true
           filters:
             branches:
               only: master
-          orb-ref: entur/salg-btd@dev:$CIRCLE_BRANCH
-          requires:
-            - pack
-      - orb-tools/increment:
-          name: release
-          context: orb-publishing
-          attach-workspace: true
-          orb-path: orb.yml
-          filters:
-            branches:
-              only: master
-          orb-ref: entur/salg-btd
-          requires:
-            - publish
