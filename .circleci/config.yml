@@ -22,7 +22,8 @@ workflows:
       - lint
       - orb-tools/pack:
           name: pack
-          requires: lint
+          requires:
+            - lint
       - orb-tools/publish:
           name: publish
           context: orb-publishing
