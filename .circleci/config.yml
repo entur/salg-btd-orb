@@ -28,7 +28,7 @@ jobs:
       - orb-tools/publish:
           orb-ref: entur/salg-btd@dev:$CIRCLE_BRANCH
       - orb-tools/increment:
-          orb-ref: entur/salg-btd@dev:$CIRCLE_BRANCH
+          orb-ref: entur/salg-btd
 
 workflows:
   verify:
