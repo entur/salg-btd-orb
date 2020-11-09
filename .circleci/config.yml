@@ -20,13 +20,14 @@ workflows:
   verify:
     jobs:
       - lint
+      - orb-tools/pack
       - orb-tools/publish:
           name: publish
           context: orb-publishing
           filters:
             branches:
               only: master
-          orb-path: src/@orb.yml
+          orb-path: src/orb.yml
           orb-ref: entur/salg-btd@dev:$CIRCLE_BRANCH
           requires:
             - lint
@@ -36,7 +37,7 @@ workflows:
           filters:
             branches:
               only: master
-          orb-path: src/@orb.yml
+          orb-path: src/orb.yml
           orb-ref: entur/salg-btd
           requires:
             - publish

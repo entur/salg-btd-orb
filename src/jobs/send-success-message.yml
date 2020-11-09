@@ -1,6 +1,4 @@
-docker:
-  - image: cimg/base:stable
-resource_class: small
+executor: slackbot
 description: "Sends slack message."
 steps:
   - checkout
