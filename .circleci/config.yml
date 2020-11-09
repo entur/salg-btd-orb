@@ -30,7 +30,7 @@ workflows:
           filters:
             branches:
               only: master
-          orb-path: src/orb.yml
+          orb-path: orb.yml
           orb-ref: entur/salg-btd@dev:$CIRCLE_BRANCH
           requires:
             - pack
@@ -40,7 +40,7 @@ workflows:
           filters:
             branches:
               only: master
-          orb-path: src/orb.yml
+          orb-path: orb.yml
           orb-ref: entur/salg-btd
           requires:
             - publish
