@@ -2,7 +2,7 @@ steps:
   - checkout
   - run: get-latest-version
   - run: get-current-tag
-  - run: find-jira-issues-from-latest-commits
+  - run: find-jira-issues
   - slack/notify:
       event: fail
       custom: |-
