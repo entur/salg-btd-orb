@@ -22,11 +22,14 @@ workflows:
       - lint
       - orb-tools/pack:
           name: pack
+          artifact-path: orb.yml
+          use-orb-pack: true
           requires:
             - lint
       - orb-tools/publish:
           name: publish
           context: orb-publishing
+          orb-path: orb.yml
           filters:
             branches:
               only: master
@@ -36,6 +39,7 @@ workflows:
       - orb-tools/increment:
           name: release
           context: orb-publishing
+          orb-path: orb.yml
           filters:
             branches:
               only: master
