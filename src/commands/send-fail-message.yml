@@ -49,7 +49,7 @@ steps:
                           "type": "plain_text",
                           "text": "View Workflow"
                         },
-                        "url": "https://circleci.com/workflow-run/${CIRCLE_WORKFLOW_ID}" #yamllint disable-line
+                        "url": "https://circleci.com/workflow-run/${CIRCLE_WORKFLOW_ID}"
                       }
                     ]
                   }
