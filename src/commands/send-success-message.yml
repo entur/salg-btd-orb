@@ -1,10 +1,11 @@
 description: "Sends slack message."
 steps:
-  - checkout
-  - get-latest-version
-  - get-current-tag
-  - find-jira-issues
   - slack/notify:
+      pre-steps:
+        - checkout
+        - get-latest-version
+        - get-current-tag
+        - find-jira-issues
       event: always
       custom: |-
         {
