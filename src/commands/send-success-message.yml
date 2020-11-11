@@ -1,11 +1,25 @@
 description: "Sends slack message."
 steps:
+  - checkout
+      - run:
+      command: |-
+        GRADLE_VERSION=$(cat ./gradle.properties | grep "version" | cut -d'=' -f2)
+        echo $GRADLE_VERSION
+        echo "export GRADLE_VERSION=$GRADLE_VERSION" >> $BASH_ENV
+  - run:
+      command: |-
+        CURRENT_TAG=master-v$GRADLE_VERSION
+        echo $CURRENT_TAG
+        echo "export CURRENT_TAG=$CURRENT_TAG" >> $BASH_ENV
+  - run:
+      command: |-
+        echo $CURRENT_TAG
+        ISSUE_KEYS=$(git log --pretty=oneline ${CURRENT_TAG}..HEAD | \
+        grep -e '[A-Z]\+-[0-9]\+' -o | uniq | sed -e "H;\${x;s/\n/,/g;s/^,//;p;};d")
+        echo $ISSUE_KEYS
+        echo "export ISSUE_KEYS=${ISSUE_KEYS:None}" >> $BASH_ENV
+        cat $BASH_ENV
   - slack/notify:
-      pre-steps:
-        - checkout
-        - get-latest-version
-        - get-current-tag
-        - find-jira-issues
       event: always
       custom: |-
         {
