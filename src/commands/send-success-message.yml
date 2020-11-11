@@ -36,7 +36,7 @@ steps:
                     },
                     {
                       "type": "mrkdwn",
-                      "text": "*Commit*: \n $COMMIT_MESSAGE"
+                      "text": "*Commit*: \n $ISSUE_KEYS"
                     }
                   ]
                 },
