@@ -1,9 +1,9 @@
 description: "Sends slack message."
 steps:
   - checkout
-  - run: get-latest-version
-  - run: get-current-tag
-  - run: find-jira-issues
+  - get-latest-version
+  - get-current-tag
+  - find-jira-issues
   - slack/notify:
       event: always
       custom: |-
