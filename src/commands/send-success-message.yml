@@ -1,6 +1,5 @@
 description: "Sends slack message."
 steps:
-  - checkout
   - get-latest-version
   - get-current-tag
   - find-jira-issues
