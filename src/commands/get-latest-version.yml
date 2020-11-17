@@ -2,6 +2,6 @@ description: Find the current version of the application from gradle.properties
 steps:
   - run:
       command: |-
-        GRADLE_VERSION=$(cat ./gradle.properties | grep "version" | cut -d'=' -f2)
+        export GRADLE_VERSION=$(cat ./gradle.properties | grep "version" | cut -d'=' -f2)
         echo $GRADLE_VERSION
         echo "export GRADLE_VERSION=$GRADLE_VERSION" >> $BASH_ENV

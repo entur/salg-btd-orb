@@ -2,6 +2,6 @@ description: Calculates which tag was previously made on branch
 steps:
   - run:
       command: |-
-        CURRENT_TAG=master-v$GRADLE_VERSION
+        export CURRENT_TAG=master-v$GRADLE_VERSION
         echo $CURRENT_TAG
         echo "export CURRENT_TAG=$CURRENT_TAG" >> $BASH_ENV
