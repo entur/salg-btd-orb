@@ -35,7 +35,7 @@ steps:
                       },
                       {
                         "type": "mrkdwn",
-                        "text": "*Commit*: \n $ISSUE_KEYS"
+                        "text": "*Jira*: \n $ISSUE_KEYS"
                       }
                     ]
                   },
