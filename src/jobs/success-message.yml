@@ -1,7 +1,7 @@
 description: "Sends slack message."
 
 executor:
-  name: default
+  name: slackbot
 
 steps:
   - checkout
