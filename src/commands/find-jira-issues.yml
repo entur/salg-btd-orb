@@ -9,3 +9,4 @@ steps:
         echo $ISSUE_KEYS
         echo "export ISSUE_KEYS=${ISSUE_KEYS:None}" >> $BASH_ENV
         cat $BASH_ENV
+      name: Find jira issues

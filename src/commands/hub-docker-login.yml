@@ -3,3 +3,4 @@ steps:
   - run:
       command: |-
         echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_LOGIN --password-stdin
+      name: Hub docker login
