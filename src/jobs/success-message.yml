@@ -8,4 +8,4 @@ steps:
   - get-latest-version
   - get-current-tag
   - find-jira-issues
-  - btd/send-success-message
+  - send-success-message
