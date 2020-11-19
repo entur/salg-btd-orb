@@ -1,0 +1,11 @@
+description: "Sends slack message."
+
+executor:
+  name: default
+
+steps:
+  - checkout
+  - get-latest-version
+  - get-current-tag
+  - find-jira-issues
+  - btd/send-success-message
